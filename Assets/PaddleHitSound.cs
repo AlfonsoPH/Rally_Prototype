@@ -1,18 +1,12 @@
 
 using UnityEngine;
 
-[RequireComponent(typeof(AudioSource))]
 public class PaddleHitSound : MonoBehaviour
 {
-    private AudioSource audioSource;
+    [SerializeField] private AudioSource hitAudioSource;
     private float lastHitTime = -100f;
 
     public float hitCooldown = 0.1f;
-
-    void Awake()
-    {
-        audioSource = GetComponent<AudioSource>();
-    }
 
     void OnCollisionEnter(Collision collision)
     {
@@ -20,9 +14,9 @@ public class PaddleHitSound : MonoBehaviour
         {
             if (Time.time - lastHitTime >= hitCooldown)
             {
-                if (audioSource.clip != null)
+                if (hitAudioSource != null && hitAudioSource.clip != null)
                 {
-                    audioSource.PlayOneShot(audioSource.clip);
+                    hitAudioSource.PlayOneShot(hitAudioSource.clip);
                     lastHitTime = Time.time;
                 }
             }
