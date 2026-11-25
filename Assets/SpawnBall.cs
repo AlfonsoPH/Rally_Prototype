@@ -1,33 +1,62 @@
-
 using UnityEngine;
+using Oculus.Interaction;
+using System.Collections;
 
 public class BallSpawner : MonoBehaviour
 {
-    [Header("Ball Settings")]
     public GameObject ballPrefab;
     public Transform spawnPoint;
+    public Transform leftHandSpawnPoint;
+    public GrabInteractor leftGrabInteractor;
+
+    private bool autoGrabbed = false;
 
     void Update()
     {
-        // Detect a press of the left controller's index trigger
+        bool leftGrip = OVRInput.Get(
+            OVRInput.Button.PrimaryHandTrigger);
+
         if (OVRInput.GetDown(
-            OVRInput.Button.PrimaryIndexTrigger,
-            OVRInput.Controller.LTouch))
+            OVRInput.Button.PrimaryIndexTrigger))
         {
-            if (ballPrefab == null || spawnPoint == null)
+            if (!autoGrabbed)
             {
-                Debug.LogWarning("Assign the ball prefab and spawn point!");
-                return;
+                StartCoroutine(SpawnBall(leftGrip));
             }
+        }
 
-            // Spawn the ball at the designated position
-            Instantiate(
-                ballPrefab,
-                spawnPoint.position,
-                spawnPoint.rotation
-            );
+        if (autoGrabbed && !leftGrip)
+        {
+            leftGrabInteractor.ForceRelease();
+            autoGrabbed = false;
+        }
+    }
 
-            Debug.Log("Ball spawned!");
+    IEnumerator SpawnBall(bool autoGrab)
+    {
+        Transform point = autoGrab
+            ? leftHandSpawnPoint
+            : spawnPoint;
+
+        GameObject ball = Instantiate(
+            ballPrefab,
+            point.position,
+            point.rotation
+        );
+
+        yield return null;
+
+        if (autoGrab && OVRInput.Get(
+            OVRInput.Button.PrimaryHandTrigger))
+        {
+            GrabInteractable interactable =
+                ball.GetComponentInChildren<GrabInteractable>();
+
+            if (interactable != null)
+            {
+                leftGrabInteractor.ForceSelect(interactable);
+                autoGrabbed = true;
+            }
         }
     }
 }

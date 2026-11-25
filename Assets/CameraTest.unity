@@ -690,6 +690,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BallSpawner
   ballPrefab: {fileID: 5550857317974647204, guid: 67f91656f142a334e99a31faeb0d85cb, type: 3}
   spawnPoint: {fileID: 919162717}
+  leftHandSpawnPoint: {fileID: 919162717}
+  leftGrabInteractor: {fileID: 2531556551017255712}
 --- !u!4 &919162717 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5081257052215018592, guid: 433480188db635c4fb4d672e68e94c04, type: 3}
@@ -980,6 +982,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 433480188db635c4fb4d672e68e94c04, type: 3}
+--- !u!114 &2531556551017255712 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8451798079062796396, guid: 433480188db635c4fb4d672e68e94c04, type: 3}
+  m_PrefabInstance: {fileID: 2531556551017255711}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acb743c666c1ab34e928a0b62c2fa862, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2664707654191458885
 PrefabInstance:
   m_ObjectHideFlags: 0
